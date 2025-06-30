@@ -1,35 +1,37 @@
 --!nonstrict
 --[[
   Notes *added in github so nobody questions*
-  - Made by @vietnamricefarmerz / @_kuronjie
+	- Made by @vietnamricefarmerz / @_kuronjie
 
-  - Yes I will use Moonwave docs format for function comments sybau sygau stfu syfm
-  - Read the function comments
-  - Put the torpedo instance inside FilterDescendantInstances inside an OverlapParams instance since the module does not do it for you; it is designed to be as compact and performant as possible
-  - speed is NOT in studs
-    - 100 speed is about 1 sps with 60 fps physics tick
+	- Yes I will use Moonwave docs format for function comments sybau sygau stfu syfm
+	- Read the function comments
+	- Put the torpedo instance inside FilterDescendantInstances inside an OverlapParams instance since the module does not do it for you; it is designed to be as compact and performant as possible
+	  remove the self.Running stuff entirely if you want micro optimizations
+	- speed is NOT in studs
+		- 100 speed is about 1 sps displacement
 
-  - before questioning what the fuck a builtin roblox function does please search it up
-  - i am swearing in here because it makes me a better programmer
+	- before questioning what the fuck a builtin roblox function does please search it up
+	- i am swearing in here because it makes me a better programmer and i dont get banned if its not visible to the client
 
-  - PUT IN SERVERSTORAGE PUT IN SERVERSTORAGE PUT IN SERVERSTORAGE PUT IN SERVERSTORAGE PUT IN SERVERSTORAGE PUT IN SERVERSTORAGE PUT IN SERVERSTORAGE PUT IN SERVERSTORAGE PUT IN SERVERSTORAGE PUT IN SERVERSTORAGE
+	- PUT IN SERVERSTORAGE PUT IN SERVERSTORAGE PUT IN SERVERSTORAGE PUT IN SERVERSTORAGE PUT IN SERVERSTORAGE PUT IN SERVERSTORAGE PUT IN SERVERSTORAGE PUT IN SERVERSTORAGE PUT IN SERVERSTORAGE PUT IN SERVERSTORAGE
 
-  next questin
-  how tf u even require this?
+	next questin
+	how tf u even require this?
 
-  local this = (path.to.ref)
-  
+	local this = (path.to.referenceTorp)
+	local Torpmodule = (path.to.Torpedomodule)
+
+	local params = OverlapParams.new()
+	OverlapParams.FilterType = Enum.RaycastFilterType.Exclude
+	OverlapParams.FilterDescendantInstances = {this} -- add more parts if needed
+
+	local torpedo = Torpmodule.new(this, damage, speed, range, params)
+	torpedo:resume()
 ]]
 local TorpedoModule = {}
 TorpedoModule.__index = TorpedoModule
 
 local RunService = game:GetService("RunService")
-
-export type TorpedoStats = {
-	Damage: number,
-	Speed: number,
-	Range: number,
-}
 
 type Torpedo = {
 	Inst: BasePart,
@@ -111,6 +113,7 @@ function TorpedoModule:update(): ()
 	now = nil
 	
 	task.synchronize()
+	-- make upvector lookvector or rightvector if needed
 	self.Inst.Position += self.Inst.CFrame.UpVector * self.Speed * self.deltaTime -- this shit took me ages to figure out why tf its accelerating instead of going at a sconstant pace
 
 	task.desynchronize()
@@ -129,7 +132,7 @@ function TorpedoModule:update(): ()
 		return
 	end
 
-  -- Have I fucking tested ts? No.
+	-- i confess, i have not actually tested this properly
 	if workspace:GetPartBoundsInBox(self.Inst.CFrame, self.Inst.Size, self.Filter)[1] then
 		task.synchronize()
 		if self.Connection then
