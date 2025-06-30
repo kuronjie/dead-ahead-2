@@ -1,5 +1,6 @@
 # OPEN-SOURCE TEKI HAKKEN SCRIPTS
-at9uaorgyiurtcyabeiurcaybsdifacoerixuabryaciurtahgregrrrr
+acaciebgtacetbyaertbeytbdtrrbdrtbdtyt
+
 This project is licensed under the terms of the MIT license.
 
 ## reminder
