@@ -18,8 +18,8 @@
 	next questin
 	how tf u even require this?
 
-	local this = (path.to.referenceTorp)
-	local Torpmodule = (path.to.Torpedomodule)
+	local this = path.to.referenceTorp
+	local Torpmodule = require(path.to.Torpedomodule)
 
 	local params = OverlapParams.new()
 	OverlapParams.FilterType = Enum.RaycastFilterType.Exclude
